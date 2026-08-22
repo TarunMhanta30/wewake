@@ -1,57 +1,78 @@
 import { useState } from 'react'
 import { analyze } from './lib/api'
+import SecrecyAlarm from './components/SecrecyAlarm'
+import ScoreBanner from './components/ScoreBanner'
+import MatchedScript from './components/MatchedScript'
+import TruthCard from './components/TruthCard'
+import ReasonsList from './components/ReasonsList'
 
 export default function App() {
   const [text, setText] = useState('')
   const [result, setResult] = useState(null)
-  const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [failed, setFailed] = useState(false)
 
   async function onSubmit(e) {
     e.preventDefault()
     setLoading(true)
-    setError(null)
+    setFailed(false)
     setResult(null)
     try {
       setResult(await analyze(text))
-    } catch (err) {
-      setError(err.message)
+    } catch {
+      setFailed(true)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-4">
-      <main className="mx-auto w-full max-w-md">
-        <h1 className="text-xl font-semibold text-slate-900">wewake</h1>
-        <p className="mt-1 text-sm text-slate-500">Skeleton — wire check only.</p>
+    <div className="min-h-screen bg-white">
+      <div className="mx-auto w-full max-w-[500px] space-y-6 p-4">
+        <header>
+          <h1 className="text-2xl font-bold tracking-wide text-slate-900">
+            WEWAKE
+          </h1>
+          <p className="text-sm text-slate-600">Wake up before you pay.</p>
+        </header>
 
-        <form onSubmit={onSubmit} className="mt-4 space-y-3">
+        <form onSubmit={onSubmit} className="space-y-2">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-slate-900"
+          >
+            Paste the message or call transcript
+          </label>
           <textarea
+            id="message"
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={6}
-            placeholder="Paste a message…"
-            className="w-full rounded border border-slate-300 p-3 text-base"
+            placeholder="e.g. Sir, a parcel in your name has drugs..."
+            className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
           />
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-slate-900 py-3 text-base text-white disabled:opacity-50"
+            className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
           >
-            {loading ? 'Analyzing…' : 'Analyze'}
+            {loading ? 'Analysing...' : 'Analyse'}
           </button>
+          {failed && (
+            <p className="text-sm text-red-600">Could not reach the server.</p>
+          )}
         </form>
 
-        {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-
         {result && (
-          <pre className="mt-4 overflow-x-auto rounded bg-slate-900 p-3 text-xs text-slate-100">
-            {JSON.stringify(result, null, 2)}
-          </pre>
+          <section className="space-y-4">
+            <SecrecyAlarm triggered={result.secrecy_triggered} />
+            <ScoreBanner score={result.score} level={result.level} />
+            <MatchedScript script={result.matched_script} />
+            <TruthCard truth={result.truth_card} />
+            <ReasonsList reasons={result.reasons} />
+          </section>
         )}
-      </main>
+      </div>
     </div>
   )
 }
