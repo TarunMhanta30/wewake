@@ -5,6 +5,7 @@ import ScoreBanner from './components/ScoreBanner'
 import MatchedScript from './components/MatchedScript'
 import TruthCard from './components/TruthCard'
 import ReasonsList from './components/ReasonsList'
+import UpiDecoder from './components/UpiDecoder'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -72,6 +73,8 @@ export default function App() {
             <ReasonsList reasons={result.reasons} />
           </section>
         )}
+
+        <UpiDecoder />
       </div>
     </div>
   )

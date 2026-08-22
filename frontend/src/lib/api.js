@@ -16,3 +16,8 @@ export async function health() {
   const { data } = await api.get('/api/health')
   return data
 }
+
+export async function decodeUpi(text) {
+  const { data } = await api.post('/api/decode-upi', { text })
+  return data
+}
