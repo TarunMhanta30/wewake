@@ -10,6 +10,7 @@ import UpiDecoder from './components/UpiDecoder'
 import LinkChecker from './components/LinkChecker'
 import PayeeCheck from './components/PayeeCheck'
 import CircuitBreaker from './components/CircuitBreaker'
+import ReverseVerification from './components/ReverseVerification'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -90,6 +91,8 @@ export default function App() {
         <PayeeCheck />
 
         <CircuitBreaker />
+
+        <ReverseVerification />
       </div>
     </div>
   )
