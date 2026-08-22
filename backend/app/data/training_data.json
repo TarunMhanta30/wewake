@@ -1,0 +1,698 @@
+[
+ {
+  "text": "your kyc is complete, no further action required",
+  "label": 0
+ },
+ {
+  "text": "your subscription renews next month, no action needed",
+  "label": 0
+ },
+ {
+  "text": "the weather looks good for the weekend trip",
+  "label": 0
+ },
+ {
+  "text": "we are out of milk, can you pick some up",
+  "label": 0
+ },
+ {
+  "text": "approve this and the funds will be credited, enter your secret number to confirm",
+  "label": 1
+ },
+ {
+  "text": "your policy has lapsed, deposit the renewal now to avoid forfeiting the benefit",
+  "label": 1
+ },
+ {
+  "text": "the water supply will be off between ten and twelve",
+  "label": 0
+ },
+ {
+  "text": "account suspension notice, update your credentials now to avoid permanent closure",
+  "label": 1
+ },
+ {
+  "text": "the internet is down in our area since morning",
+  "label": 0
+ },
+ {
+  "text": "remain on camera, do not disconnect, an officer is reviewing your file right now",
+  "label": 1
+ },
+ {
+  "text": "your money was deducted wrongly, enter your pin to receive the reversal",
+  "label": 1
+ },
+ {
+  "text": "pay the penalty online now to close the case without court involvement",
+  "label": 1
+ },
+ {
+  "text": "the assignment deadline has been extended by a week",
+  "label": 0
+ },
+ {
+  "text": "reminder to bring your id card tomorrow",
+  "label": 0
+ },
+ {
+  "text": "can you send me the notes from yesterday's class",
+  "label": 0
+ },
+ {
+  "text": "we are from the central agency, your identity document appears in a laundering investigation, remain available on this video line",
+  "label": 1
+ },
+ {
+  "text": "the library will remain open till nine tonight",
+  "label": 0
+ },
+ {
+  "text": "send the amount first and everything will be sorted out afterwards",
+  "label": 1
+ },
+ {
+  "text": "this is a sealed enquiry, discussing it outside is an offence",
+  "label": 1
+ },
+ {
+  "text": "the doctor's clinic is closed on sunday",
+  "label": 0
+ },
+ {
+  "text": "you must complete the financial audit by transferring the balance for inspection",
+  "label": 1
+ },
+ {
+  "text": "join our private trading group, members are earning assured returns daily",
+  "label": 1
+ },
+ {
+  "text": "a small security deposit is required before the funds can be disbursed",
+  "label": 1
+ },
+ {
+  "text": "the investigating officer requires you to move your balance to a monitored government account for auditing",
+  "label": 1
+ },
+ {
+  "text": "please carry an umbrella, it might rain later",
+  "label": 0
+ },
+ {
+  "text": "the interest rate for the deposit has been revised",
+  "label": 0
+ },
+ {
+  "text": "let me know when you are free to talk",
+  "label": 0
+ },
+ {
+  "text": "your electricity supply will be disconnected tonight, contact the officer at once",
+  "label": 1
+ },
+ {
+  "text": "this is your officer speaking, comply with the instructions without question",
+  "label": 1
+ },
+ {
+  "text": "you have been chosen for a large cash award, a small processing charge applies",
+  "label": 1
+ },
+ {
+  "text": "the matter is confidential, do not mention it to family members",
+  "label": 1
+ },
+ {
+  "text": "sir a package registered under your identity was intercepted with banned substances, the crime unit has opened a file against you",
+  "label": 1
+ },
+ {
+  "text": "kindly authorise the incoming payment using your pin so i can send the amount",
+  "label": 1
+ },
+ {
+  "text": "sending the meeting link for tomorrow's discussion",
+  "label": 0
+ },
+ {
+  "text": "part time work available, small investment needed to activate your account and start earning",
+  "label": 1
+ },
+ {
+  "text": "i transferred the rent this morning, please check",
+  "label": 0
+ },
+ {
+  "text": "share the number you just received so i can proceed on your behalf",
+  "label": 1
+ },
+ {
+  "text": "happy birthday, hope you have a wonderful day",
+  "label": 0
+ },
+ {
+  "text": "we will freeze everything you own unless you settle this today",
+  "label": 1
+ },
+ {
+  "text": "the exam syllabus has been updated on the website",
+  "label": 0
+ },
+ {
+  "text": "please remind me to call the plumber tomorrow",
+  "label": 0
+ },
+ {
+  "text": "i will call you after i reach home",
+  "label": 0
+ },
+ {
+  "text": "please confirm your attendance for the event",
+  "label": 0
+ },
+ {
+  "text": "i have updated the spreadsheet with the latest numbers",
+  "label": 0
+ },
+ {
+  "text": "the reversal is stuck, read out the number on your screen so we can complete it",
+  "label": 1
+ },
+ {
+  "text": "your service request has been logged successfully",
+  "label": 0
+ },
+ {
+  "text": "thanks for lending me the charger yesterday",
+  "label": 0
+ },
+ {
+  "text": "your offer is confirmed, remit the joining deposit today to lock the role",
+  "label": 1
+ },
+ {
+  "text": "i will reach the station by six, see you there",
+  "label": 0
+ },
+ {
+  "text": "support here, to release your refund kindly approve the request on your payment app",
+  "label": 1
+ },
+ {
+  "text": "the results will be announced next friday",
+  "label": 0
+ },
+ {
+  "text": "please find the attached invoice for last month",
+  "label": 0
+ },
+ {
+  "text": "thanks for your help yesterday, really appreciated it",
+  "label": 0
+ },
+ {
+  "text": "i finished reading the book you recommended",
+  "label": 0
+ },
+ {
+  "text": "your last payment did not go through, share the code so we can return your money",
+  "label": 1
+ },
+ {
+  "text": "the train is running late by about twenty minutes",
+  "label": 0
+ },
+ {
+  "text": "do not hang up, stay with me until the process is finished",
+  "label": 1
+ },
+ {
+  "text": "any resistance will be treated as obstruction of the investigation",
+  "label": 1
+ },
+ {
+  "text": "the transaction of five hundred rupees was successful",
+  "label": 0
+ },
+ {
+  "text": "verify your identity through this portal or lose access permanently",
+  "label": 1
+ },
+ {
+  "text": "an arrest order is pending, cooperate now and move the funds for clearance",
+  "label": 1
+ },
+ {
+  "text": "an official case has been opened against you, keep this matter strictly between us until clearance is granted",
+  "label": 1
+ },
+ {
+  "text": "great presentation today, the team really liked it",
+  "label": 0
+ },
+ {
+  "text": "we finished the presentation ahead of schedule",
+  "label": 0
+ },
+ {
+  "text": "thanks for the birthday wishes everyone",
+  "label": 0
+ },
+ {
+  "text": "there is no time to think, complete the transfer within the next few minutes",
+  "label": 1
+ },
+ {
+  "text": "let's split the bill equally between the four of us",
+  "label": 0
+ },
+ {
+  "text": "your name has surfaced in a financial crime probe, you must stay connected until the officer completes verification",
+  "label": 1
+ },
+ {
+  "text": "the enquiry requires full disclosure of your holdings and immediate deposit",
+  "label": 1
+ },
+ {
+  "text": "your cooperation is mandatory, any delay will be recorded against you",
+  "label": 1
+ },
+ {
+  "text": "your refund has been processed and will reflect in five working days",
+  "label": 0
+ },
+ {
+  "text": "can we reschedule our call to next week",
+  "label": 0
+ },
+ {
+  "text": "guaranteed doubling of capital within thirty days, limited seats remaining",
+  "label": 1
+ },
+ {
+  "text": "failure to comply will result in custody, we advise immediate cooperation and fund verification",
+  "label": 1
+ },
+ {
+  "text": "the office will remain closed on account of the holiday",
+  "label": 0
+ },
+ {
+  "text": "a legal notice will be issued unless payment is made before midnight",
+  "label": 1
+ },
+ {
+  "text": "the new phone arrives tomorrow according to tracking",
+  "label": 0
+ },
+ {
+  "text": "i paid the electricity bill online yesterday",
+  "label": 0
+ },
+ {
+  "text": "your aadhaar was used to open a fraudulent account, transfer your savings to our secure holding for validation",
+  "label": 1
+ },
+ {
+  "text": "we have received your application and will get back soon",
+  "label": 0
+ },
+ {
+  "text": "your flight is on time, boarding at gate twelve",
+  "label": 0
+ },
+ {
+  "text": "please review the document before the deadline",
+  "label": 0
+ },
+ {
+  "text": "your relative is in trouble and needs money urgently, do not tell anyone yet",
+  "label": 1
+ },
+ {
+  "text": "this must be handled quietly, telling others will complicate matters for you",
+  "label": 1
+ },
+ {
+  "text": "the electricity bill for this month is now available on the portal",
+  "label": 0
+ },
+ {
+  "text": "the recipe needs two cups of flour and one egg",
+  "label": 0
+ },
+ {
+  "text": "your complaint has been resolved, ticket closed",
+  "label": 0
+ },
+ {
+  "text": "your gas connection subsidy is blocked, update immediately using this link",
+  "label": 1
+ },
+ {
+  "text": "i am at the airport, boarding shortly",
+  "label": 0
+ },
+ {
+  "text": "hey are we still meeting for lunch tomorrow at one",
+  "label": 0
+ },
+ {
+  "text": "you must not discuss this proceeding with relatives, it is a sealed matter of national importance",
+  "label": 1
+ },
+ {
+  "text": "did you finish the assignment we discussed",
+  "label": 0
+ },
+ {
+  "text": "your connection is linked to unlawful advertisements and will be terminated",
+  "label": 1
+ },
+ {
+  "text": "your banking profile is about to be deactivated, complete reverification within the hour",
+  "label": 1
+ },
+ {
+  "text": "sending you the photos from the trip",
+  "label": 0
+ },
+ {
+  "text": "your wallet will stop working today unless verification is completed through the attached application",
+  "label": 1
+ },
+ {
+  "text": "install the remote support tool, i will walk you through the steps",
+  "label": 1
+ },
+ {
+  "text": "the officer will stay on the line while you complete the transfer",
+  "label": 1
+ },
+ {
+  "text": "the gym will be closed for renovation next week",
+  "label": 0
+ },
+ {
+  "text": "the festival sale starts from next friday",
+  "label": 0
+ },
+ {
+  "text": "there has been an emergency, send the amount now and i will explain later",
+  "label": 1
+ },
+ {
+  "text": "the movie was really good, you should watch it",
+  "label": 0
+ },
+ {
+  "text": "the bus leaves from platform three at ten",
+  "label": 0
+ },
+ {
+  "text": "the bank branch will operate on reduced hours saturday",
+  "label": 0
+ },
+ {
+  "text": "act immediately or the consequences will be severe, do not consult anyone",
+  "label": 1
+ },
+ {
+  "text": "an illegal activity report has been filed against your number",
+  "label": 1
+ },
+ {
+  "text": "we are monitoring your device until verification is complete",
+  "label": 1
+ },
+ {
+  "text": "i have shared the folder with you on drive",
+  "label": 0
+ },
+ {
+  "text": "your loan application is approved, pay the file charge to release the amount",
+  "label": 1
+ },
+ {
+  "text": "we have a warrant ready, but it can be withheld if you complete the verification payment today",
+  "label": 1
+ },
+ {
+  "text": "the maintenance work is scheduled for saturday morning",
+  "label": 0
+ },
+ {
+  "text": "match starts at seven thirty, don't be late",
+  "label": 0
+ },
+ {
+  "text": "the meeting has been moved to thursday morning",
+  "label": 0
+ },
+ {
+  "text": "can you share the location of the venue",
+  "label": 0
+ },
+ {
+  "text": "your prescription is ready for pickup at the pharmacy",
+  "label": 0
+ },
+ {
+  "text": "your card ending 4321 was used at a store today",
+  "label": 0
+ },
+ {
+  "text": "you can visit any branch during working hours for assistance",
+  "label": 0
+ },
+ {
+  "text": "your feedback has been recorded, thank you",
+  "label": 0
+ },
+ {
+  "text": "confirm your date of birth and account number to proceed with the check",
+  "label": 1
+ },
+ {
+  "text": "the price of the item has dropped, thought you should know",
+  "label": 0
+ },
+ {
+  "text": "your booking has been confirmed, details attached",
+  "label": 0
+ },
+ {
+  "text": "we need the one time code to validate your identity in the system",
+  "label": 1
+ },
+ {
+  "text": "risk free scheme with assured monthly payouts, deposit now before the offer closes",
+  "label": 1
+ },
+ {
+  "text": "congratulations on the new job, well deserved",
+  "label": 0
+ },
+ {
+  "text": "your loan emi has been debited successfully this month",
+  "label": 0
+ },
+ {
+  "text": "click the link and log in to restore access before the deadline",
+  "label": 1
+ },
+ {
+  "text": "your order has been shipped and will arrive on tuesday",
+  "label": 0
+ },
+ {
+  "text": "the class notes are uploaded on the portal",
+  "label": 0
+ },
+ {
+  "text": "download the assistance application so i can view your screen and guide you",
+  "label": 1
+ },
+ {
+  "text": "we should catch up sometime this month",
+  "label": 0
+ },
+ {
+  "text": "a delivery in your name contains restricted items, we are transferring you to the crime division",
+  "label": 1
+ },
+ {
+  "text": "the cheque has been cleared and credited",
+  "label": 0
+ },
+ {
+  "text": "your monthly statement is ready to view in the app",
+  "label": 0
+ },
+ {
+  "text": "you are running out of time, the window closes shortly",
+  "label": 1
+ },
+ {
+  "text": "we are processing your reimbursement, please confirm the six digit number you received",
+  "label": 1
+ },
+ {
+  "text": "keep this conversation private, sharing it will violate the confidentiality order",
+  "label": 1
+ },
+ {
+  "text": "i am stuck and cannot talk, please transfer the money quietly",
+  "label": 1
+ },
+ {
+  "text": "i am sending the payment now, just approve the request and enter your pin to receive it",
+  "label": 1
+ },
+ {
+  "text": "complete the paid tasks and your earnings will multiply, start with a small deposit",
+  "label": 1
+ },
+ {
+  "text": "the project review went smoothly today",
+  "label": 0
+ },
+ {
+  "text": "clear the processing charge and the sanctioned amount will be credited today",
+  "label": 1
+ },
+ {
+  "text": "you have been shortlisted, secure your position by paying the refundable registration amount",
+  "label": 1
+ },
+ {
+  "text": "the package weighs about two kilograms",
+  "label": 0
+ },
+ {
+  "text": "do not inform your spouse or children, disclosure will worsen your legal position",
+  "label": 1
+ },
+ {
+  "text": "your funds are at risk, move them to the protected account we provide",
+  "label": 1
+ },
+ {
+  "text": "your account balance is available in the passbook section",
+  "label": 0
+ },
+ {
+  "text": "our customer care is available from nine to six",
+  "label": 0
+ },
+ {
+  "text": "the guest lecture is scheduled for next tuesday",
+  "label": 0
+ },
+ {
+  "text": "provide your card number and the three digits behind it for verification",
+  "label": 1
+ },
+ {
+  "text": "accept the money request and put your pin, the amount will come into your account",
+  "label": 1
+ },
+ {
+  "text": "let's plan the trip for the long weekend",
+  "label": 0
+ },
+ {
+  "text": "your shipment was held at customs due to prohibited contents, connect with the officer immediately",
+  "label": 1
+ },
+ {
+  "text": "i am running a bit late, start without me",
+  "label": 0
+ },
+ {
+  "text": "how was the interview, did it go well",
+  "label": 0
+ },
+ {
+  "text": "to keep your account active you must confirm the code sent to your phone",
+  "label": 1
+ },
+ {
+  "text": "your line will be cut today due to misuse, press one to speak to the department",
+  "label": 1
+ },
+ {
+  "text": "customs has detained a package linked to your documents, a fee must be paid for release",
+  "label": 1
+ },
+ {
+  "text": "the wifi password is on the router at the back",
+  "label": 0
+ },
+ {
+  "text": "your table reservation is confirmed for eight pm",
+  "label": 0
+ },
+ {
+  "text": "urgent action needed, your netbanking access expires this evening, confirm your details",
+  "label": 1
+ },
+ {
+  "text": "this is the narcotics wing, a consignment bearing your details contained illegal material",
+  "label": 1
+ },
+ {
+  "text": "let me see your screen so i can help complete the transaction",
+  "label": 1
+ },
+ {
+  "text": "the shop closes at nine on weekdays",
+  "label": 0
+ },
+ {
+  "text": "the court has flagged your account, deposit the amount into the escrow for release",
+  "label": 1
+ },
+ {
+  "text": "please bring the documents for verification at the branch",
+  "label": 0
+ },
+ {
+  "text": "reminder, your appointment is scheduled for friday at four",
+  "label": 0
+ },
+ {
+  "text": "install this verification tool and enter the code we send to restore your account",
+  "label": 1
+ },
+ {
+  "text": "please submit the form before the end of the month",
+  "label": 0
+ },
+ {
+  "text": "the courier firm has escalated your consignment to law enforcement, download the app to join the call",
+  "label": 1
+ },
+ {
+  "text": "you are being placed under supervised monitoring until the enquiry concludes",
+  "label": 1
+ },
+ {
+  "text": "please update your address in the records when convenient",
+  "label": 0
+ },
+ {
+  "text": "your parcel was delivered at the front desk",
+  "label": 0
+ },
+ {
+  "text": "your number was selected in the draw, remit the release charge to claim the amount",
+  "label": 1
+ },
+ {
+  "text": "your assets are under scrutiny, move them to the designated account for safety",
+  "label": 1
+ }
+]

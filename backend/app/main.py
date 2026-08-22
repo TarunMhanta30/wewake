@@ -10,7 +10,13 @@ from sqlmodel import Session, select
 
 from app.config import settings
 from app.db import get_session, init_db
-from app.engine import coercion, link_checker, payee, upi_decoder
+from app.engine import (
+    coercion,
+    link_checker,
+    ml_classifier,
+    payee,
+    upi_decoder,
+)
 from app.models.analysis_log import AnalysisLog
 
 
@@ -60,21 +66,36 @@ def health() -> dict[str, str]:
 def analyze(
     request: AnalyzeRequest, session: Session = Depends(get_session)
 ) -> dict:
-    result = coercion.analyze(request.text).to_dict()
+    # 1. rules engine, exactly as before
+    result = coercion.analyze(request.text)
+    rd = result.to_dict()
+
+    # 2. ML classifier, which can only escalate the score, never soften it
+    ml = ml_classifier.ml_score(request.text)
+    combined = ml_classifier.combine(rd["score"], ml)
+
+    # keep the rules score visible alongside the combined one
+    rd["rules_score"] = rd["score"]
+    rd["score"] = combined["final_score"]
+    rd["level"] = combined["level"]
+    rd["ml"] = ml
+    rd["detection_source"] = combined["source"]
+    rd["detection_note"] = combined["note"]
 
     # every analysis is recorded so the user can see, and dispute, why
     entry = AnalysisLog(
         text_excerpt=request.text[:120],
-        score=result["score"],
-        level=result["level"],
-        reasons_json=json.dumps(result["reasons"]),
+        score=rd["score"],
+        level=rd["level"],
+        reasons_json=json.dumps(rd["reasons"]),
         disputed=False,
     )
     session.add(entry)
     session.commit()
     session.refresh(entry)
 
-    return {**result, "log_id": entry.id}
+    rd["log_id"] = entry.id
+    return rd
 
 
 @app.post("/api/decode-upi")

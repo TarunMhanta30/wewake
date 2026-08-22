@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { analyze } from './lib/api'
 import SecrecyAlarm from './components/SecrecyAlarm'
 import ScoreBanner from './components/ScoreBanner'
+import DetectionBreakdown from './components/DetectionBreakdown'
 import MatchedScript from './components/MatchedScript'
 import TruthCard from './components/TruthCard'
 import ReasonsList from './components/ReasonsList'
@@ -80,6 +81,7 @@ export default function App() {
           <section className="space-y-4">
             <SecrecyAlarm triggered={result.secrecy_triggered} />
             <ScoreBanner score={result.score} level={result.level} />
+            <DetectionBreakdown result={result} />
             <MatchedScript script={result.matched_script} />
             <TruthCard truth={result.truth_card} />
             <ReasonsList reasons={result.reasons} />
