@@ -26,3 +26,13 @@ export async function checkLink(text) {
   const { data } = await api.post('/api/check-link', { text })
   return data
 }
+
+export async function checkPayee(vpa) {
+  const { data } = await api.post('/api/check-payee', { vpa })
+  return data
+}
+
+export async function reportPayee(vpa) {
+  const { data } = await api.post('/api/report-payee', { vpa })
+  return data
+}

@@ -18,8 +18,13 @@ def init_db() -> None:
     """Create any tables that don't exist yet. Called on startup."""
     # Importing the models module registers every SQLModel table on the metadata.
     from app import models  # noqa: F401
+    from app.engine.payee import seed_payees
 
     SQLModel.metadata.create_all(engine)
+
+    # Sample community-report data, inserted only when the table is empty.
+    with Session(engine) as session:
+        seed_payees(session)
 
 
 def get_session() -> Generator[Session, None, None]:

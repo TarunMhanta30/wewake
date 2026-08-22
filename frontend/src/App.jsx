@@ -7,6 +7,7 @@ import TruthCard from './components/TruthCard'
 import ReasonsList from './components/ReasonsList'
 import UpiDecoder from './components/UpiDecoder'
 import LinkChecker from './components/LinkChecker'
+import PayeeCheck from './components/PayeeCheck'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -78,6 +79,8 @@ export default function App() {
         <UpiDecoder />
 
         <LinkChecker />
+
+        <PayeeCheck />
       </div>
     </div>
   )
