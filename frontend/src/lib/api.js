@@ -21,3 +21,8 @@ export async function decodeUpi(text) {
   const { data } = await api.post('/api/decode-upi', { text })
   return data
 }
+
+export async function checkLink(text) {
+  const { data } = await api.post('/api/check-link', { text })
+  return data
+}

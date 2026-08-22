@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from app.config import settings
 from app.db import init_db
-from app.engine import coercion, upi_decoder
+from app.engine import coercion, link_checker, upi_decoder
 
 
 @asynccontextmanager
@@ -36,6 +36,10 @@ class DecodeUpiRequest(BaseModel):
     text: str
 
 
+class CheckLinkRequest(BaseModel):
+    text: str
+
+
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -50,3 +54,8 @@ def analyze(request: AnalyzeRequest) -> dict:
 @app.post("/api/decode-upi")
 def decode_upi(request: DecodeUpiRequest) -> dict:
     return upi_decoder.decode_upi(request.text)
+
+
+@app.post("/api/check-link")
+def check_link(request: CheckLinkRequest) -> dict:
+    return link_checker.check_link(request.text)
