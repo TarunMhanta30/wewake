@@ -5,6 +5,7 @@ import ScoreBanner from './components/ScoreBanner'
 import MatchedScript from './components/MatchedScript'
 import TruthCard from './components/TruthCard'
 import ReasonsList from './components/ReasonsList'
+import CoolingTimer from './components/CoolingTimer'
 import UpiDecoder from './components/UpiDecoder'
 import LinkChecker from './components/LinkChecker'
 import PayeeCheck from './components/PayeeCheck'
@@ -15,6 +16,9 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [failed, setFailed] = useState(false)
 
+  // bumped on every successful analysis so the cooling timer restarts
+  const [runId, setRunId] = useState(0)
+
   async function onSubmit(e) {
     e.preventDefault()
     setLoading(true)
@@ -22,6 +26,7 @@ export default function App() {
     setResult(null)
     try {
       setResult(await analyze(text))
+      setRunId((n) => n + 1)
     } catch {
       setFailed(true)
     } finally {
@@ -73,6 +78,7 @@ export default function App() {
             <MatchedScript script={result.matched_script} />
             <TruthCard truth={result.truth_card} />
             <ReasonsList reasons={result.reasons} />
+            <CoolingTimer level={result.level} runId={runId} />
           </section>
         )}
 
