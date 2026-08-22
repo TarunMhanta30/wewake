@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { analyze } from '../lib/api'
 
 // At or above this the typed reason carries scam-script language.
@@ -9,20 +9,16 @@ const SCAM_SCORE = 20
  * script they were fed. Forcing them to type the reason in their own
  * words, then scoring THAT text, shows them the scammer's language
  * coming out of their own mouth.
+ *
+ * Standalone: it does not require a coercion analysis first, because the
+ * moment someone is about to pay is exactly when they will not stop to
+ * run one.
  */
-export default function CircuitBreaker({ runId }) {
+export default function CircuitBreaker() {
   const [text, setText] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [failed, setFailed] = useState(false)
-
-  // a brand-new top-level analysis wipes anything typed here before
-  useEffect(() => {
-    setText('')
-    setResult(null)
-    setFailed(false)
-    setLoading(false)
-  }, [runId])
 
   async function onSubmit(e) {
     e.preventDefault()
@@ -41,21 +37,28 @@ export default function CircuitBreaker({ runId }) {
   const caught = result && result.score >= SCAM_SCORE
 
   return (
-    <div className="rounded border-2 border-slate-800 p-3">
-      <h3 className="text-base font-bold text-slate-900">
-        ✋ Before you pay — explain why
-      </h3>
+    <section className="space-y-4 border-t border-slate-300 pt-6">
+      <div>
+        <h2 className="text-lg font-bold text-slate-900">✋ Circuit Breaker</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          About to pay someone under pressure? Type why — in your own words —
+          before you send money.
+        </p>
+      </div>
 
-      <p className="mt-1 text-sm text-slate-800">
-        In your own words, type why you are sending this money. Do not copy
-        what the caller told you.
-      </p>
-
-      <form onSubmit={onSubmit} className="mt-3 space-y-2">
+      <form onSubmit={onSubmit} className="space-y-2">
+        <label
+          htmlFor="reason-input"
+          className="block text-sm font-medium text-slate-900"
+        >
+          Why are you sending this money?
+        </label>
         <textarea
+          id="reason-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
           rows={4}
+          placeholder="e.g. paying my friend back for dinner"
           className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
         />
         <button
@@ -71,21 +74,21 @@ export default function CircuitBreaker({ runId }) {
       </form>
 
       {result && caught && (
-        <div className="mt-3 rounded bg-red-600 p-3 text-white">
-          <h4 className="text-base font-bold">
+        <div className="rounded bg-red-600 p-3 text-white">
+          <h3 className="text-base font-bold">
             ⚠ These are the SCAMMER'S words, not yours.
-          </h4>
+          </h3>
           <p className="mt-1 text-sm">
-            The reason you just typed contains language from a known scam
-            script. This is what the fraudster wants you to believe. Stop and
-            call someone you trust before paying.
+            The reason you typed contains language from a known scam script.
+            This is what the fraudster wants you to believe. Stop and call
+            someone you trust before paying.
           </p>
 
           {result.reasons.length > 0 && (
             <ul className="mt-2 space-y-1 text-sm">
               {result.reasons.map((reason, i) => (
                 <li key={`${reason.element}-${i}`}>
-                  {reason.label} — matched: "{reason.matched}"
+                  {reason.label} &nbsp;matched: "{reason.matched}"
                 </li>
               ))}
             </ul>
@@ -94,11 +97,11 @@ export default function CircuitBreaker({ runId }) {
       )}
 
       {result && !caught && (
-        <div className="mt-3 rounded bg-green-600 p-3 text-sm text-white">
+        <div className="rounded bg-green-600 p-3 text-sm text-white">
           Your reason does not match a known scam script. If you are still
           unsure, pause and verify with someone you trust.
         </div>
       )}
-    </div>
+    </section>
   )
 }

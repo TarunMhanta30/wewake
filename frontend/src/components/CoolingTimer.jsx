@@ -15,7 +15,7 @@ const DURATIONS = {
  * `runId` changes on every new analysis, so an identical level twice in
  * a row still restarts the countdown.
  */
-export default function CoolingTimer({ level, runId, onProceed }) {
+export default function CoolingTimer({ level, runId }) {
   const duration = DURATIONS[level] || 0
   const [remaining, setRemaining] = useState(duration)
   const [proceeded, setProceeded] = useState(false)
@@ -67,10 +67,7 @@ export default function CoolingTimer({ level, runId, onProceed }) {
 
       <button
         type="button"
-        onClick={() => {
-          setProceeded(true)
-          if (onProceed) onProceed()
-        }}
+        onClick={() => setProceeded(true)}
         disabled={!done}
         className="mt-3 w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
       >
