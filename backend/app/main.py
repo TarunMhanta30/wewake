@@ -1,13 +1,14 @@
-"""wewake — coercion-aware financial fraud firewall (skeleton)."""
+"""wewake — coercion-aware financial fraud firewall."""
 
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 from app.config import settings
 from app.db import init_db
-from app.models import AnalyzeRequest, AnalyzeResponse, RiskLevel
+from app.engine import coercion
 
 
 @asynccontextmanager
@@ -27,12 +28,16 @@ app.add_middleware(
 )
 
 
+class AnalyzeRequest(BaseModel):
+    text: str
+
+
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/api/analyze", response_model=AnalyzeResponse)
-def analyze(payload: AnalyzeRequest) -> AnalyzeResponse:
-    # Hardcoded until the scoring engine lands.
-    return AnalyzeResponse(score=0, level=RiskLevel.LOW, reasons=[])
+@app.post("/api/analyze")
+def analyze(request: AnalyzeRequest) -> dict:
+    result = coercion.analyze(request.text)
+    return result.to_dict()
