@@ -6,6 +6,7 @@ import MatchedScript from './components/MatchedScript'
 import TruthCard from './components/TruthCard'
 import ReasonsList from './components/ReasonsList'
 import CoolingTimer from './components/CoolingTimer'
+import CircuitBreaker from './components/CircuitBreaker'
 import UpiDecoder from './components/UpiDecoder'
 import LinkChecker from './components/LinkChecker'
 import PayeeCheck from './components/PayeeCheck'
@@ -19,11 +20,15 @@ export default function App() {
   // bumped on every successful analysis so the cooling timer restarts
   const [runId, setRunId] = useState(0)
 
+  // true once the user has cleared the cooling timer for this result
+  const [timerCleared, setTimerCleared] = useState(false)
+
   async function onSubmit(e) {
     e.preventDefault()
     setLoading(true)
     setFailed(false)
     setResult(null)
+    setTimerCleared(false)
     try {
       setResult(await analyze(text))
       setRunId((n) => n + 1)
@@ -78,7 +83,15 @@ export default function App() {
             <MatchedScript script={result.matched_script} />
             <TruthCard truth={result.truth_card} />
             <ReasonsList reasons={result.reasons} />
-            <CoolingTimer level={result.level} runId={runId} />
+            <CoolingTimer
+              level={result.level}
+              runId={runId}
+              onProceed={() => setTimerCleared(true)}
+            />
+            {timerCleared &&
+              (result.level === 'HIGH' || result.level === 'DANGER') && (
+                <CircuitBreaker runId={runId} />
+              )}
           </section>
         )}
 
