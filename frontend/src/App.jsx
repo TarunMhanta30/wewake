@@ -12,6 +12,7 @@ import PayeeCheck from './components/PayeeCheck'
 import CircuitBreaker from './components/CircuitBreaker'
 import ReverseVerification from './components/ReverseVerification'
 import GoldenHour from './components/GoldenHour'
+import EvidenceFile from './components/EvidenceFile'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -96,6 +97,8 @@ export default function App() {
         <ReverseVerification />
 
         <GoldenHour />
+
+        <EvidenceFile />
       </div>
     </div>
   )
