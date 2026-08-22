@@ -81,6 +81,7 @@ def analyze(
     rd["ml"] = ml
     rd["detection_source"] = combined["source"]
     rd["detection_note"] = combined["note"]
+    rd["language"] = rd["ml"]["language"]
 
     # every analysis is recorded so the user can see, and dispute, why
     entry = AnalysisLog(

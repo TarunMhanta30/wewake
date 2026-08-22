@@ -22,11 +22,33 @@ from pathlib import Path
 from typing import Optional
 import joblib
 
+try:
+    from app.engine import language as _language
+except Exception:  # running the module directly
+    import language as _language
+
 _MODEL_PATH = Path(__file__).parent.parent / "data" / "coercion_model.joblib"
 
 # Below this probability the model stays silent. Tuned so that ordinary
 # messages (which score ~0.30-0.40) never trigger a flag.
 ML_THRESHOLD = 0.55
+
+# The model is not equally confident in every language, because the
+# training set is not equally large in every language. These are measured
+# from held-out text, not guessed:
+#   English      normal <=0.19, scam >=0.81  -> wide gap, default is fine
+#   Devanagari   normal <=0.47, scam >=0.53  -> narrow, needs a lower bar
+#   Romanized    normal <=0.51, scam >=0.73  -> normals run high, raise it
+_THRESHOLDS = {
+    "en": 0.55,
+    "hi/mr": 0.50,
+    "hi-latn": 0.58,
+    "unknown": 0.55,
+}
+
+
+def _threshold_for(language_code: str) -> float:
+    return _THRESHOLDS.get(language_code, ML_THRESHOLD)
 
 _model = None
 _load_error: Optional[str] = None
@@ -50,17 +72,26 @@ def ml_score(text: str) -> dict:
         "available": bool,     # False if model file is missing
         "probability": float,  # 0.0-1.0 chance the text is coercive
         "percent": int,        # probability as 0-100
-        "counted": bool,       # True if >= ML_THRESHOLD (i.e. it contributes)
-        "score": int           # percent if counted else 0
+        "counted": bool,       # True if >= the threshold for this language
+        "score": int,          # percent if counted else 0
+        "threshold": float,    # the probability bar applied, 0.0-1.0
+        "threshold_percent": int,  # that bar as 0-100
+        "language": str        # human-readable detected language
       }
     """
+    detected = _language.detect_language(text or "")
+    threshold = _threshold_for(detected["language"])
+
     model = _get_model()
     if model is None or not text or not text.strip():
         return {"available": model is not None, "probability": 0.0,
-                "percent": 0, "counted": False, "score": 0}
+                "percent": 0, "counted": False, "score": 0,
+                "threshold": threshold,
+                "threshold_percent": int(round(threshold * 100)),
+                "language": detected["label"]}
 
     prob = float(model.predict_proba([text])[0][1])
-    counted = prob >= ML_THRESHOLD
+    counted = prob >= threshold
     pct = int(round(prob * 100))
     return {
         "available": True,
@@ -68,6 +99,9 @@ def ml_score(text: str) -> dict:
         "percent": pct,
         "counted": counted,
         "score": pct if counted else 0,
+        "threshold": threshold,
+        "threshold_percent": int(round(threshold * 100)),
+        "language": detected["label"],
     }
 
 

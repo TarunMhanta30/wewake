@@ -48,6 +48,9 @@ export default function App() {
             WEWAKE
           </h1>
           <p className="text-sm text-slate-600">Wake up before you pay.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Works in English, Hindi and Marathi — in Devanagari or Roman script.
+          </p>
         </header>
 
         <form onSubmit={onSubmit} className="space-y-2">
@@ -62,7 +65,7 @@ export default function App() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={6}
-            placeholder="e.g. Sir, a parcel in your name has drugs..."
+            placeholder="Paste in English, Hindi or Marathi — e.g. किसी को मत बताना, तुरंत पैसे भेजो"
             className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
           />
           <button

@@ -6,6 +6,7 @@ Produces: app/data/coercion_model.joblib
 import json
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.pipeline import FeatureUnion
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
@@ -25,13 +26,27 @@ def main():
         texts, labels, test_size=0.2, random_state=42, stratify=labels
     )
 
+    # Word n-grams carry phrase meaning, but they fragment on Devanagari
+    # and on romanized spelling variants ("bhejo"/"bhejho"/"bhej do").
+    # Character n-grams are script-agnostic and absorb that variation, so
+    # the two are combined rather than chosen between.
     pipe = Pipeline([
-        ("tfidf", TfidfVectorizer(
-            ngram_range=(1, 2),      # unigrams + bigrams catch phrases
-            sublinear_tf=True,
-            min_df=1,
-            lowercase=True,
-        )),
+        ("tfidf", FeatureUnion([
+            ("word", TfidfVectorizer(
+                analyzer="word",
+                ngram_range=(1, 2),  # unigrams + bigrams catch phrases
+                sublinear_tf=True,
+                min_df=1,
+                lowercase=True,
+            )),
+            ("char", TfidfVectorizer(
+                analyzer="char_wb",
+                ngram_range=(2, 5),  # script-agnostic: works for Devanagari
+                sublinear_tf=True,
+                min_df=1,
+                lowercase=True,
+            )),
+        ])),
         ("clf", LogisticRegression(
             max_iter=1000,
             class_weight="balanced",

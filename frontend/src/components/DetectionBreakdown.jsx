@@ -26,6 +26,14 @@ export default function DetectionBreakdown({ result }) {
           </div>
         )}
 
+        {result.language && <div>Language detected: {result.language}</div>}
+
+        {ml && ml.available && (
+          <div>
+            ML threshold for this language: {ml.threshold_percent}%
+          </div>
+        )}
+
         <div className="font-semibold">
           Final: {result.score}/100 — {result.level}
         </div>
