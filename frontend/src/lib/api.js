@@ -36,3 +36,13 @@ export async function reportPayee(vpa) {
   const { data } = await api.post('/api/report-payee', { vpa })
   return data
 }
+
+export async function getLogs() {
+  const { data } = await api.get('/api/logs')
+  return data
+}
+
+export async function disputeLog(logId) {
+  const { data } = await api.post('/api/dispute', { log_id: logId })
+  return data
+}
