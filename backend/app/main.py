@@ -3,7 +3,7 @@
 import json
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlmodel import Session, select
@@ -11,6 +11,7 @@ from sqlmodel import Session, select
 from app.config import settings
 from app.db import get_session, init_db
 from app.engine import (
+    audio_analyzer,
     coercion,
     link_checker,
     ml_classifier,
@@ -62,16 +63,15 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/api/analyze")
-def analyze(
-    request: AnalyzeRequest, session: Session = Depends(get_session)
-) -> dict:
-    # 1. rules engine, exactly as before
-    result = coercion.analyze(request.text)
+def run_analysis(text: str, session: Session) -> dict:
+    """The hybrid pipeline: rules + ML, logged. Shared by the text and
+    audio endpoints so both score identically."""
+    # 1. rules engine
+    result = coercion.analyze(text)
     rd = result.to_dict()
 
     # 2. ML classifier, which can only escalate the score, never soften it
-    ml = ml_classifier.ml_score(request.text)
+    ml = ml_classifier.ml_score(text)
     combined = ml_classifier.combine(rd["score"], ml)
 
     # keep the rules score visible alongside the combined one
@@ -85,7 +85,7 @@ def analyze(
 
     # every analysis is recorded so the user can see, and dispute, why
     entry = AnalysisLog(
-        text_excerpt=request.text[:120],
+        text_excerpt=text[:120],
         score=rd["score"],
         level=rd["level"],
         reasons_json=json.dumps(rd["reasons"]),
@@ -97,6 +97,13 @@ def analyze(
 
     rd["log_id"] = entry.id
     return rd
+
+
+@app.post("/api/analyze")
+def analyze(
+    request: AnalyzeRequest, session: Session = Depends(get_session)
+) -> dict:
+    return run_analysis(request.text, session)
 
 
 @app.post("/api/decode-upi")
@@ -156,3 +163,27 @@ def dispute(
     session.add(entry)
     session.commit()
     return {"ok": True, "log_id": entry.id}
+
+
+@app.post("/api/analyze-audio")
+async def analyze_audio(
+    file: UploadFile = File(...), session: Session = Depends(get_session)
+) -> dict:
+    contents = await file.read()
+    tr = audio_analyzer.transcribe_audio(contents, file.filename)
+
+    if not tr["ok"]:
+        return {
+            "ok": False,
+            "error": tr["error"],
+            "transcript": "",
+            "analysis": None,
+        }
+
+    return {
+        "ok": True,
+        "transcript": tr["transcript"],
+        "audio_language": tr["language"],
+        "duration": tr["duration"],
+        "analysis": run_analysis(tr["transcript"], session),
+    }

@@ -15,6 +15,7 @@ import ReverseVerification from './components/ReverseVerification'
 import GoldenHour from './components/GoldenHour'
 import EvidenceFile from './components/EvidenceFile'
 import FlagLog from './components/FlagLog'
+import AudioAnalyzer from './components/AudioAnalyzer'
 
 export default function App() {
   const [text, setText] = useState('')
@@ -107,6 +108,8 @@ export default function App() {
         <EvidenceFile />
 
         <FlagLog />
+
+        <AudioAnalyzer />
       </div>
     </div>
   )

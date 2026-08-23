@@ -46,3 +46,13 @@ export async function disputeLog(logId) {
   const { data } = await api.post('/api/dispute', { log_id: logId })
   return data
 }
+
+export async function analyzeAudio(file) {
+  const form = new FormData()
+  form.append('file', file)
+  // Content-Type must be unset so the browser adds the multipart boundary.
+  const { data } = await api.post('/api/analyze-audio', form, {
+    headers: { 'Content-Type': undefined },
+  })
+  return data
+}
