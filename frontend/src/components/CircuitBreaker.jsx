@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { analyze } from '../lib/api'
+import Panel from './Panel'
 
 // At or above this the typed reason carries scam-script language.
 const SCAM_SCORE = 20
@@ -37,58 +38,71 @@ export default function CircuitBreaker() {
   const caught = result && result.score >= SCAM_SCORE
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <div>
-        <h2 className="text-lg font-bold text-slate-900">✋ Circuit Breaker</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          About to pay someone under pressure? Type why — in your own words —
-          before you send money.
-        </p>
-      </div>
-
-      <form onSubmit={onSubmit} className="space-y-2">
-        <label
-          htmlFor="reason-input"
-          className="block text-sm font-medium text-slate-900"
-        >
-          Why are you sending this money?
-        </label>
-        <textarea
-          id="reason-input"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows={4}
-          placeholder="e.g. paying my friend back for dinner"
-          className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
-        >
+    <Panel
+      index="05"
+      eyebrow="Circuit breaker"
+      title="✋ Circuit Breaker"
+      description="About to pay someone under pressure? Type why — in your own words — before you send money."
+    >
+      <form onSubmit={onSubmit} className="space-y-3">
+        <div>
+          <label htmlFor="reason-input" className="wk-label">
+            Why are you sending this money?
+          </label>
+          <textarea
+            id="reason-input"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={4}
+            placeholder="e.g. paying my friend back for dinner"
+            className="wk-textarea"
+          />
+        </div>
+        <button type="submit" disabled={loading} className="wk-btn">
           {loading ? 'Checking…' : 'Check my reason'}
         </button>
-        {failed && (
-          <p className="text-sm text-red-600">Could not reach the server.</p>
-        )}
+        {failed && <p className="wk-err">Could not reach the server.</p>}
       </form>
 
       {result && caught && (
-        <div className="rounded bg-red-600 p-3 text-white">
-          <h3 className="text-base font-bold">
+        <div
+          className="wk-rise"
+          style={{
+            background: 'var(--alarm)',
+            color: '#ffffff',
+            borderRadius: '12px',
+            padding: '20px',
+          }}
+        >
+          <h3
+            style={{
+              fontFamily: "'Fraunces', Georgia, serif",
+              fontWeight: 700,
+              fontSize: '19px',
+            }}
+          >
             ⚠ These are the SCAMMER'S words, not yours.
           </h3>
-          <p className="mt-1 text-sm">
+          <p style={{ fontSize: '14px', marginTop: '8px', lineHeight: 1.5 }}>
             The reason you typed contains language from a known scam script.
             This is what the fraudster wants you to believe. Stop and call
             someone you trust before paying.
           </p>
 
           {result.reasons.length > 0 && (
-            <ul className="mt-2 space-y-1 text-sm">
+            <ul className="mt-3 space-y-1.5">
               {result.reasons.map((reason, i) => (
-                <li key={`${reason.element}-${i}`}>
-                  {reason.label} &nbsp;matched: "{reason.matched}"
+                <li key={`${reason.element}-${i}`} style={{ fontSize: '14px' }}>
+                  {reason.label}{' '}
+                  <span
+                    style={{
+                      fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                      fontSize: '12px',
+                      opacity: 0.85,
+                    }}
+                  >
+                    matched: "{reason.matched}"
+                  </span>
                 </li>
               ))}
             </ul>
@@ -97,11 +111,20 @@ export default function CircuitBreaker() {
       )}
 
       {result && !caught && (
-        <div className="rounded bg-green-600 p-3 text-sm text-white">
+        <div
+          className="wk-rise"
+          style={{
+            border: '2px solid var(--ink)',
+            borderRadius: '12px',
+            padding: '20px',
+            fontSize: '14px',
+            color: 'var(--ink)',
+          }}
+        >
           Your reason does not match a known scam script. If you are still
           unsure, pause and verify with someone you trust.
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

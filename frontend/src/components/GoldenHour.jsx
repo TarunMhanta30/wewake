@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Panel from './Panel'
 
 const GOLDEN_HOUR_SECONDS = 60 * 60
 
@@ -10,7 +11,7 @@ const STEPS = [
   "Call your bank's 24x7 fraud helpline (number is on the back of your debit card). Ask them to freeze the account and note a reference number.",
   <>
     Call{' '}
-    <a href="tel:1930" className="font-bold text-blue-700 underline">
+    <a href="tel:1930" className="wk-link">
       1930
     </a>{' '}
     — the National Cyber Crime Helpline. Give them the transaction ID/UTR,
@@ -23,7 +24,7 @@ const STEPS = [
       href="https://cybercrime.gov.in"
       target="_blank"
       rel="noopener noreferrer"
-      className="font-bold text-blue-700 underline"
+      className="wk-link"
     >
       cybercrime.gov.in
     </a>{' '}
@@ -89,72 +90,148 @@ export default function GoldenHour() {
   }
 
   const expired = started && remaining === 0
+  const pct = Math.round((done.length / STEPS.length) * 100)
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <div>
-        <h2 className="text-lg font-bold text-slate-900">
-          🚨 Golden Hour Mode — money already sent?
-        </h2>
-        <p className="mt-1 text-sm text-slate-600">
-          The first hour decides whether you get your money back. Reported
-          within minutes, banks can freeze it. Start now.
-        </p>
-      </div>
-
+    <Panel
+      index="07"
+      eyebrow="Golden hour"
+      title="🚨 Golden Hour Mode — money already sent?"
+      description="The first hour decides whether you get your money back. Reported within minutes, banks can freeze it. Start now."
+    >
       {!started ? (
-        <button
-          type="button"
-          onClick={start}
-          className="w-full rounded bg-red-600 py-3 text-base font-bold text-white"
-        >
+        <button type="button" onClick={start} className="wk-btn-alarm">
           Start Golden Hour
         </button>
       ) : (
         <div className="space-y-4">
-          <div className="rounded border-2 border-red-600 p-3 text-center">
-            <div className="text-5xl font-bold text-slate-900">
+          <div
+            className="text-center"
+            style={{
+              background: 'var(--alarm)',
+              color: '#ffffff',
+              borderRadius: '12px',
+              padding: '20px',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '11px',
+                letterSpacing: '2px',
+                opacity: 0.9,
+              }}
+            >
+              TIME REMAINING
+            </p>
+            <div
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontWeight: 700,
+                fontSize: '46px',
+                lineHeight: 1.1,
+                marginTop: '4px',
+              }}
+            >
               {formatTime(remaining)}
             </div>
             {expired && (
-              <p className="mt-2 text-sm font-semibold text-slate-900">
+              <p style={{ fontSize: '14px', fontWeight: 600, marginTop: '8px' }}>
                 The easy window has passed — but still report. Recovery is
                 harder now, not impossible.
               </p>
             )}
           </div>
 
-          <p className="text-sm font-semibold text-slate-900">
-            Step {done.length} of {STEPS.length} done
-          </p>
+          <div>
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '12px',
+                color: 'var(--slate)',
+              }}
+            >
+              Step {done.length} of {STEPS.length} done
+            </p>
+            <div
+              className="mt-2 overflow-hidden"
+              style={{ height: '6px', borderRadius: '999px', background: 'var(--mist-2)' }}
+            >
+              <div
+                className="wk-progress h-full"
+                style={{ width: `${pct}%`, background: 'var(--ink)', borderRadius: '999px' }}
+              />
+            </div>
+          </div>
 
           <ol className="space-y-2">
-            {STEPS.map((step, index) => (
-              <li key={index} className="rounded border border-slate-300 p-3">
-                <label className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    checked={done.includes(index)}
-                    onChange={() => toggle(index)}
-                    className="mt-1 h-5 w-5 shrink-0"
-                  />
-                  <span className="text-sm text-slate-800">
-                    <span className="font-semibold">{index + 1}.</span> {step}
-                  </span>
-                </label>
-              </li>
-            ))}
+            {STEPS.map((step, index) => {
+              const checked = done.includes(index)
+              return (
+                <li
+                  key={index}
+                  style={{
+                    border: '1px solid var(--line)',
+                    borderRadius: '10px',
+                    padding: '14px',
+                    background: checked ? 'var(--mist)' : 'transparent',
+                    transition: 'background 200ms ease',
+                  }}
+                >
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <span className="relative mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => toggle(index)}
+                        className="h-5 w-5 cursor-pointer appearance-none"
+                        style={{
+                          border: '1px solid var(--line)',
+                          borderRadius: '5px',
+                          background: checked ? 'var(--ink)' : 'var(--paper)',
+                          transition: 'background 200ms ease',
+                        }}
+                      />
+                      {checked && (
+                        <svg
+                          viewBox="0 0 16 16"
+                          className="wk-tick pointer-events-none absolute h-3.5 w-3.5"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M3 8.5l3.2 3.2L13 5"
+                            fill="none"
+                            stroke="#ffffff"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                    <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>
+                      <span
+                        style={{
+                          fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                          fontWeight: 700,
+                          color: 'var(--slate)',
+                        }}
+                      >
+                        {index + 1}.
+                      </span>{' '}
+                      {step}
+                    </span>
+                  </label>
+                </li>
+              )
+            })}
           </ol>
 
-          <button
-            type="button"
-            onClick={reset}
-            className="w-full rounded border border-slate-400 py-3 text-base font-medium text-slate-900"
-          >
+          <button type="button" onClick={reset} className="wk-btn-2 w-full">
             Reset
           </button>
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { checkPayee, reportPayee } from '../lib/api'
+import Panel from './Panel'
 
-// Full class strings per risk so Tailwind's scanner keeps them.
-const RISK_STYLES = {
-  HIGH: 'bg-red-600 text-white',
-  MEDIUM: 'bg-amber-400 text-black',
-  NEW: 'bg-amber-400 text-black',
-  LOW: 'bg-green-600 text-white',
-  UNKNOWN: 'bg-slate-200 text-slate-900',
+const RISK_COLOUR = {
+  HIGH: 'var(--alarm)',
+  MEDIUM: 'var(--amber-dk)',
+  NEW: 'var(--amber-dk)',
+  LOW: 'var(--ink)',
+  UNKNOWN: 'var(--slate)',
 }
 
 export default function PayeeCheck() {
@@ -48,66 +48,99 @@ export default function PayeeCheck() {
     }
   }
 
-  const riskStyle =
-    (result && RISK_STYLES[result.risk]) || 'bg-slate-200 text-slate-900'
+  const colour = (result && RISK_COLOUR[result.risk]) || 'var(--slate)'
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <h2 className="text-lg font-bold text-slate-900">
-        First-Time Payee Check
-      </h2>
-
-      <form onSubmit={onSubmit} className="space-y-2">
-        <label
-          htmlFor="vpa-input"
-          className="block text-sm font-medium text-slate-900"
-        >
-          Enter a UPI ID to check
-        </label>
-        <input
-          id="vpa-input"
-          type="text"
-          value={vpa}
-          onChange={(e) => setVpa(e.target.value)}
-          placeholder="name@bank"
-          className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
-        >
+    <Panel
+      index="04"
+      eyebrow="Payee"
+      title="First-Time Payee Check"
+      description="A community-reported registry seeded with sample data — not a bank or NPCI feed."
+    >
+      <form onSubmit={onSubmit} className="space-y-3">
+        <div>
+          <label htmlFor="vpa-input" className="wk-label">
+            Enter a UPI ID to check
+          </label>
+          <input
+            id="vpa-input"
+            type="text"
+            value={vpa}
+            onChange={(e) => setVpa(e.target.value)}
+            placeholder="name@bank"
+            className="wk-input"
+            style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: '14px' }}
+          />
+        </div>
+        <button type="submit" disabled={loading} className="wk-btn">
           {loading ? 'Checking...' : 'Check ID'}
         </button>
-        {failed && (
-          <p className="text-sm text-red-600">Could not reach the server.</p>
-        )}
+        {failed && <p className="wk-err">Could not reach the server.</p>}
       </form>
 
       {result && (
-        <div className="space-y-3">
-          <div className={`rounded p-4 text-lg font-bold ${riskStyle}`}>
-            {result.risk}
+        <div className="wk-rise space-y-3">
+          <div
+            className="flex items-center justify-between gap-3"
+            style={{
+              background: colour,
+              color: '#ffffff',
+              borderRadius: '12px',
+              padding: '20px',
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Fraunces', Georgia, serif",
+                fontWeight: 600,
+                fontSize: '20px',
+                letterSpacing: '1px',
+              }}
+            >
+              {result.risk}
+            </span>
+            <span
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '14px',
+                opacity: 0.85,
+              }}
+            >
+              {result.reports} report{result.reports === 1 ? '' : 's'}
+            </span>
           </div>
 
-          <div className="break-all text-sm text-slate-700">
-            <div>UPI ID: {result.vpa}</div>
-            <div>Fraud reports: {result.reports}</div>
-            {result.known && <div>First seen: {result.age_days} days ago</div>}
+          <div className="wk-inner">
+            <div className="wk-mono-row">
+              <span style={{ color: 'var(--slate)' }}>UPI ID</span>
+              <span className="break-all text-right" style={{ color: 'var(--ink)' }}>
+                {result.vpa}
+              </span>
+            </div>
+            <div className="wk-mono-row">
+              <span style={{ color: 'var(--slate)' }}>FRAUD REPORTS</span>
+              <span style={{ color: 'var(--ink)' }}>{result.reports}</span>
+            </div>
+            {result.known && (
+              <div className="wk-mono-row">
+                <span style={{ color: 'var(--slate)' }}>FIRST SEEN</span>
+                <span style={{ color: 'var(--ink)' }}>{result.age_days} days ago</span>
+              </div>
+            )}
           </div>
 
-          <p className="text-sm text-slate-900">{result.message}</p>
+          <p style={{ fontSize: '14px', color: 'var(--ink)' }}>{result.message}</p>
 
           <button
             type="button"
             onClick={onReport}
             disabled={reporting}
-            className="rounded border border-slate-400 px-3 py-2 text-sm text-slate-900 disabled:opacity-60"
+            className="wk-btn-2"
           >
             {reporting ? 'Reporting...' : 'Report this ID as fraud'}
           </button>
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

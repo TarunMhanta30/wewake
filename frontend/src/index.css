@@ -1,3 +1,349 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ---------------------------------------------------------------
+   WEWAKE — light editorial safety instrument.
+   Palette is deliberately navy + alarm only. No green/teal anywhere:
+   a green "safe" state on a fraud tool invites people to stop reading.
+   --------------------------------------------------------------- */
+:root {
+  --paper: #ffffff;
+  --mist: #edf1f8;
+  --mist-2: #d8deea;
+  --line: #c7d0e4;
+  --ink: #10182e;
+  --navy-2: #1c2748;
+  --slate: #5b6478;
+  --alarm: #e5383b;
+  --amber: #f4a340;
+  --amber-dk: #b4700c;
+  --orange: #f4720a;
+
+  /* monitor-panel internals */
+  --dim: #8593ad;
+  --track: #2a3654;
+}
+
+@layer base {
+  html {
+    background: var(--mist);
+  }
+  body {
+    background: var(--mist);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  /* visible keyboard focus — navy, never green */
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::placeholder {
+    color: var(--slate);
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .wk-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 26px;
+  }
+
+  .wk-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--alarm);
+  }
+
+  .wk-h {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .wk-desc {
+    font-size: 14px;
+    color: var(--slate);
+  }
+
+  .wk-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .wk-input,
+  .wk-textarea {
+    width: 100%;
+    background: var(--mist-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 13px 15px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .wk-input:focus,
+  .wk-textarea:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 2px var(--ink);
+  }
+
+  .wk-btn {
+    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    background: var(--ink);
+    color: #ffffff;
+    transition: background 200ms ease, transform 150ms ease,
+      box-shadow 200ms ease;
+  }
+  .wk-btn:hover:not(:disabled) {
+    background: var(--navy-2);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgb(16 24 46 / 0.18);
+  }
+  .wk-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  .wk-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .wk-btn-alarm {
+    width: 100%;
+    border-radius: 10px;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 15px;
+    background: var(--alarm);
+    color: #ffffff;
+    transition: filter 200ms ease, transform 150ms ease, box-shadow 200ms ease;
+  }
+  .wk-btn-alarm:hover:not(:disabled) {
+    filter: brightness(0.92);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgb(229 56 59 / 0.28);
+  }
+  .wk-btn-alarm:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  .wk-btn-alarm:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .wk-btn-2 {
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition: background 200ms ease, transform 150ms ease;
+  }
+  .wk-btn-2:hover:not(:disabled) {
+    background: var(--mist);
+    transform: translateY(-1px);
+  }
+  .wk-btn-2:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  .wk-btn-2:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .wk-inner {
+    background: var(--mist);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .wk-err {
+    font-size: 14px;
+    color: var(--alarm);
+  }
+
+  .wk-link {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .wk-link:hover {
+    color: var(--alarm);
+  }
+
+  .wk-mono-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    padding: 5px 0;
+  }
+}
+
+/* ---------------------------------------------------------------
+   Motion — short, purposeful, all disabled under reduced-motion
+   --------------------------------------------------------------- */
+@keyframes wk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.wk-rise {
+  animation: wk-rise 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes wk-slide-pulse {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  45% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  62% {
+    transform: translateY(0) scale(1.015);
+    box-shadow: 0 0 0 6px rgb(229 56 59 / 0.2);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 0 rgb(229 56 59 / 0);
+  }
+}
+.wk-alarm-enter {
+  animation: wk-slide-pulse 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* slow calm glow on the monitor at DANGER only */
+@keyframes wk-glow {
+  0%,
+  100% {
+    box-shadow: 0 20px 50px rgb(16 24 46 / 0.25);
+  }
+  50% {
+    box-shadow: 0 20px 50px rgb(16 24 46 / 0.25),
+      0 0 34px 2px rgb(229 56 59 / 0.45);
+  }
+}
+.wk-danger-glow {
+  animation: wk-glow 2s ease-in-out infinite;
+}
+
+/* scanning sweep while a request is in flight */
+@keyframes wk-scan {
+  0% {
+    transform: translateY(-110%);
+  }
+  100% {
+    transform: translateY(110%);
+  }
+}
+.wk-scan::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(216 222 234 / 0.22) 50%,
+    transparent 100%
+  );
+  animation: wk-scan 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ECG travelling pulse — paths carry pathLength="100" */
+@keyframes wk-ecg {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.wk-ecg-idle {
+  stroke-dasharray: 14 86;
+  animation: wk-ecg 3.4s linear infinite;
+}
+.wk-ecg-alert {
+  stroke-dasharray: 10 90;
+  animation: wk-ecg 1.5s linear infinite;
+}
+
+.wk-arc {
+  transition: stroke-dashoffset 900ms cubic-bezier(0.16, 1, 0.3, 1),
+    stroke 400ms ease;
+}
+.wk-ring {
+  transition: stroke-dashoffset 1s linear;
+}
+
+@keyframes wk-tick {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.wk-tick {
+  animation: wk-tick 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.wk-progress {
+  transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .wk-scan::after {
+    display: none;
+  }
+}

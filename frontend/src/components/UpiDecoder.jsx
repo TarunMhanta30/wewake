@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { decodeUpi } from '../lib/api'
+import Panel from './Panel'
 
-// Full class strings per verdict so Tailwind's scanner keeps them.
-const VERDICT_STYLES = {
-  SAFE_TO_REVIEW: 'bg-slate-200 text-slate-900',
-  CAUTION: 'bg-amber-400 text-black',
-  DANGER: 'bg-red-600 text-white',
+const VERDICT_COLOUR = {
+  SAFE_TO_REVIEW: 'var(--ink)',
+  CAUTION: 'var(--amber-dk)',
+  DANGER: 'var(--alarm)',
 }
 
 export default function UpiDecoder() {
@@ -28,68 +28,94 @@ export default function UpiDecoder() {
     }
   }
 
-  const verdictStyle =
-    (result && VERDICT_STYLES[result.verdict]) || 'bg-slate-200 text-slate-900'
+  const colour = (result && VERDICT_COLOUR[result.verdict]) || 'var(--ink)'
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <h2 className="text-lg font-bold text-slate-900">UPI Link Decoder</h2>
-
-      <form onSubmit={onSubmit} className="space-y-2">
-        <label
-          htmlFor="upi-link"
-          className="block text-sm font-medium text-slate-900"
-        >
-          Paste a UPI payment link
-        </label>
-        <input
-          id="upi-link"
-          type="text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="upi://pay?pa=...&am=..."
-          className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
-        >
+    <Panel
+      index="02"
+      eyebrow="UPI link"
+      title="UPI Link Decoder"
+      description="Paste a UPI payment link to see which way the money actually moves."
+    >
+      <form onSubmit={onSubmit} className="space-y-3">
+        <div>
+          <label htmlFor="upi-link" className="wk-label">
+            Paste a UPI payment link
+          </label>
+          <input
+            id="upi-link"
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="upi://pay?pa=...&am=..."
+            className="wk-input"
+            style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: '14px' }}
+          />
+        </div>
+        <button type="submit" disabled={loading} className="wk-btn">
           {loading ? 'Decoding...' : 'Decode'}
         </button>
-        {failed && (
-          <p className="text-sm text-red-600">Could not reach the server.</p>
-        )}
+        {failed && <p className="wk-err">Could not reach the server.</p>}
       </form>
 
       {result && (
-        <div className="space-y-3">
-          <div className={`rounded p-4 text-lg font-semibold ${verdictStyle}`}>
-            {result.direction}
+        <div className="wk-rise space-y-3">
+          <div
+            style={{
+              background: colour,
+              color: '#ffffff',
+              borderRadius: '12px',
+              padding: '20px',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '11px',
+                letterSpacing: '2px',
+                opacity: 0.85,
+              }}
+            >
+              {result.verdict.replace(/_/g, ' ')}
+            </p>
+            <p style={{ fontSize: '17px', fontWeight: 600, marginTop: '8px', lineHeight: 1.45 }}>
+              {result.direction}
+            </p>
           </div>
 
           {(result.payee_name || result.payee_vpa || result.amount) && (
-            <div className="text-sm text-slate-700">
+            <div className="wk-inner">
               {(result.payee_name || result.payee_vpa) && (
-                <div>
-                  Payee: {result.payee_name}
-                  {result.payee_name && result.payee_vpa ? ' — ' : ''}
-                  {result.payee_vpa}
+                <div className="wk-mono-row">
+                  <span style={{ color: 'var(--slate)' }}>PAYEE</span>
+                  <span className="break-all text-right" style={{ color: 'var(--ink)' }}>
+                    {result.payee_name}
+                    {result.payee_name && result.payee_vpa ? ' — ' : ''}
+                    {result.payee_vpa}
+                  </span>
                 </div>
               )}
-              {result.amount && <div>Amount: ₹{result.amount}</div>}
+              {result.amount && (
+                <div className="wk-mono-row">
+                  <span style={{ color: 'var(--slate)' }}>AMOUNT</span>
+                  <span style={{ color: 'var(--ink)' }}>₹{result.amount}</span>
+                </div>
+              )}
             </div>
           )}
 
           {result.warnings.length > 0 && (
-            <ul className="list-disc space-y-1 pl-5 text-sm text-slate-800">
+            <ul className="space-y-2">
               {result.warnings.map((warning, i) => (
-                <li key={i}>{warning}</li>
+                <li key={i} className="flex gap-2" style={{ fontSize: '14px', color: 'var(--ink)' }}>
+                  <span style={{ color: 'var(--alarm)' }} aria-hidden="true">▸</span>
+                  <span>{warning}</span>
+                </li>
               ))}
             </ul>
           )}
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

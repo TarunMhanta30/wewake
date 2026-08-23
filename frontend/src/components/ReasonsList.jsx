@@ -2,26 +2,53 @@
 export default function ReasonsList({ reasons }) {
   return (
     <div>
-      <h2 className="text-base font-semibold text-slate-900">
+      <h3 className="wk-h" style={{ fontSize: '18px' }}>
         Why this was flagged
-      </h2>
+      </h3>
 
       {reasons.length === 0 ? (
-        <p className="mt-2 text-sm text-slate-600">No risk signals found.</p>
+        <p className="wk-desc mt-2">No risk signals found.</p>
       ) : (
-        <ul className="mt-2 divide-y divide-slate-200 border-y border-slate-200">
+        <ul className="mt-3">
           {reasons.map((reason, i) => (
             <li
               key={`${reason.element}-${i}`}
-              className="flex items-start justify-between gap-3 py-2"
+              className="flex items-start justify-between gap-4 py-3"
+              style={{
+                borderTop: i === 0 ? 'none' : '1px solid var(--line)',
+              }}
             >
-              <div>
-                <div className="text-sm text-slate-900">{reason.label}</div>
-                <div className="mt-0.5 text-xs text-slate-500">
+              <div className="min-w-0">
+                <div
+                  style={{
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    color: 'var(--ink)',
+                  }}
+                >
+                  {reason.label}
+                </div>
+                <div
+                  className="truncate"
+                  style={{
+                    fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                    fontSize: '12px',
+                    color: 'var(--slate)',
+                    marginTop: '2px',
+                  }}
+                >
                   matched: "{reason.matched}"
                 </div>
               </div>
-              <div className="shrink-0 text-sm font-semibold text-slate-900">
+              <div
+                className="shrink-0"
+                style={{
+                  fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                  fontWeight: 700,
+                  fontSize: '14px',
+                  color: 'var(--alarm)',
+                }}
+              >
                 +{reason.points}
               </div>
             </li>

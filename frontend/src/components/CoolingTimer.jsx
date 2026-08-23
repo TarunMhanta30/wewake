@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { riskColour } from './riskColour'
 
 // Wait length comes from the danger level alone — never from an amount.
 const DURATIONS = {
@@ -6,6 +7,9 @@ const DURATIONS = {
   HIGH: 30,
   CAUTION: 15,
 }
+
+const R = 54
+const CIRC = 2 * Math.PI * R
 
 /**
  * A forced pause. Scams work through speed and pressure, so the more
@@ -44,32 +48,73 @@ export default function CoolingTimer({ level, runId }) {
 
   if (proceeded) {
     return (
-      <p className="text-sm text-slate-700">
+      <p className="wk-desc">
         You waited. If you still feel unsure, stop and call someone you trust.
       </p>
     )
   }
 
   const done = remaining === 0
+  const offset = CIRC - (remaining / duration) * CIRC
+  const colour = riskColour(level)
 
   return (
-    <div className="rounded border-2 border-slate-800 p-3">
-      <h3 className="text-base font-bold text-slate-900">
-        ⏸ Cooling Period — take a breath
-      </h3>
+    <div className="wk-inner">
+      <p className="wk-eyebrow">⏸ Cooling period — take a breath</p>
 
-      <p className="mt-1 text-sm text-slate-800">
+      <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '8px' }}>
         You seem to be under pressure. Please wait {duration} seconds before
         doing anything. Scams depend on you acting fast.
       </p>
 
-      <div className="mt-3 text-5xl font-bold text-slate-900">{remaining}</div>
+      <div className="mt-4 flex justify-center">
+        <svg
+          viewBox="0 0 130 130"
+          className="h-32 w-32"
+          role="img"
+          aria-label={`${remaining} seconds remaining`}
+        >
+          <circle
+            cx="65"
+            cy="65"
+            r={R}
+            fill="none"
+            stroke="var(--mist-2)"
+            strokeWidth="8"
+          />
+          <circle
+            className="wk-ring"
+            cx="65"
+            cy="65"
+            r={R}
+            fill="none"
+            stroke={colour}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={CIRC}
+            strokeDashoffset={offset}
+            transform="rotate(-90 65 65)"
+          />
+          <text
+            x="65"
+            y="66"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontFamily="'JetBrains Mono', ui-monospace, monospace"
+            fontSize="34"
+            fontWeight="700"
+            fill="var(--ink)"
+          >
+            {remaining}
+          </text>
+        </svg>
+      </div>
 
       <button
         type="button"
         onClick={() => setProceeded(true)}
         disabled={!done}
-        className="mt-3 w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
+        className="wk-btn mt-3"
       >
         {done ? 'I understand — Proceed' : `Please wait… ${remaining}s`}
       </button>

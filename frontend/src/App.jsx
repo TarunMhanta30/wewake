@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { analyze } from './lib/api'
+import Panel from './components/Panel'
+import DuressMonitor from './components/DuressMonitor'
 import SecrecyAlarm from './components/SecrecyAlarm'
 import ScoreBanner from './components/ScoreBanner'
 import DetectionBreakdown from './components/DetectionBreakdown'
@@ -41,75 +43,82 @@ export default function App() {
     }
   }
 
+  // result blocks rise in with a short stagger
+  const step = (i) => ({ animationDelay: `${i * 60}ms` })
+
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-[500px] space-y-6 p-4">
-        <header>
-          <h1 className="text-2xl font-bold tracking-wide text-slate-900">
-            WEWAKE
-          </h1>
-          <p className="text-sm text-slate-600">Wake up before you pay.</p>
-          <p className="mt-1 text-sm text-slate-600">
-            Works in English, Hindi and Marathi — in Devanagari or Roman script.
-          </p>
-        </header>
+    <div className="min-h-screen bg-mist">
+      <div className="mx-auto flex w-full max-w-shell flex-col gap-5 p-4 lg:flex-row lg:items-start lg:gap-7 lg:p-7">
+        {/* ---------------- LEFT: duress monitor ---------------- */}
+        <aside className="w-full lg:sticky lg:top-7 lg:w-[400px] lg:shrink-0 lg:self-start">
+          <DuressMonitor result={result} loading={loading} />
+        </aside>
 
-        <form onSubmit={onSubmit} className="space-y-2">
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-slate-900"
+        {/* ---------------- RIGHT: the tools ---------------- */}
+        <main className="flex min-w-0 flex-1 flex-col gap-5">
+          <Panel
+            index="01"
+            eyebrow="Analyse message"
+            title="Analyse a message or call transcript"
+            description="Works in English, Hindi and Marathi — in Devanagari or Roman script."
           >
-            Paste the message or call transcript
-          </label>
-          <textarea
-            id="message"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={6}
-            placeholder="Paste in English, Hindi or Marathi — e.g. किसी को मत बताना, तुरंत पैसे भेजो"
-            className="w-full rounded border border-slate-400 p-2 text-base text-slate-900"
-          />
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
-          >
-            {loading ? 'Analysing...' : 'Analyse'}
-          </button>
-          {failed && (
-            <p className="text-sm text-red-600">Could not reach the server.</p>
-          )}
-        </form>
+            <form onSubmit={onSubmit} className="space-y-3">
+              <div>
+                <label htmlFor="message" className="wk-label">
+                  Paste the message or call transcript
+                </label>
+                <textarea
+                  id="message"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  rows={6}
+                  placeholder="Paste in English, Hindi or Marathi — e.g. किसी को मत बताना, तुरंत पैसे भेजो"
+                  className="wk-textarea"
+                />
+              </div>
+              <button type="submit" disabled={loading} className="wk-btn-alarm">
+                {loading ? 'Analysing...' : 'Analyse'}
+              </button>
+              {failed && <p className="wk-err">Could not reach the server.</p>}
+            </form>
 
-        {result && (
-          <section className="space-y-4">
-            <SecrecyAlarm triggered={result.secrecy_triggered} />
-            <ScoreBanner score={result.score} level={result.level} />
-            <DetectionBreakdown result={result} />
-            <MatchedScript script={result.matched_script} />
-            <TruthCard truth={result.truth_card} />
-            <ReasonsList reasons={result.reasons} />
-            <CoolingTimer level={result.level} runId={runId} />
-          </section>
-        )}
+            {result && (
+              <div className="space-y-4">
+                <div className="wk-rise" style={step(0)}>
+                  <SecrecyAlarm triggered={result.secrecy_triggered} />
+                </div>
+                <div className="wk-rise" style={step(1)}>
+                  <ScoreBanner score={result.score} level={result.level} />
+                </div>
+                <div className="wk-rise" style={step(2)}>
+                  <MatchedScript script={result.matched_script} />
+                </div>
+                <div className="wk-rise" style={step(3)}>
+                  <TruthCard truth={result.truth_card} />
+                </div>
+                <div className="wk-rise" style={step(4)}>
+                  <ReasonsList reasons={result.reasons} />
+                </div>
+                <div className="wk-rise" style={step(5)}>
+                  <DetectionBreakdown result={result} />
+                </div>
+                <div className="wk-rise" style={step(6)}>
+                  <CoolingTimer level={result.level} runId={runId} />
+                </div>
+              </div>
+            )}
+          </Panel>
 
-        <UpiDecoder />
-
-        <LinkChecker />
-
-        <PayeeCheck />
-
-        <CircuitBreaker />
-
-        <ReverseVerification />
-
-        <GoldenHour />
-
-        <EvidenceFile />
-
-        <FlagLog />
-
-        <AudioAnalyzer />
+          <UpiDecoder />
+          <LinkChecker />
+          <PayeeCheck />
+          <CircuitBreaker />
+          <ReverseVerification />
+          <GoldenHour />
+          <EvidenceFile />
+          <FlagLog />
+          <AudioAnalyzer />
+        </main>
       </div>
     </div>
   )

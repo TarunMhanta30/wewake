@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { analyzeAudio } from '../lib/api'
+import Panel from './Panel'
 import SecrecyAlarm from './SecrecyAlarm'
 import ScoreBanner from './ScoreBanner'
 import DetectionBreakdown from './DetectionBreakdown'
@@ -36,58 +37,52 @@ export default function AudioAnalyzer() {
   }
 
   const analysis = response && response.ok ? response.analysis : null
+  const step = (i) => ({ animationDelay: `${i * 60}ms` })
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <div>
-        <h2 className="text-lg font-bold text-slate-900">
-          🎙 Audio Scam-Call Analyzer
-        </h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Upload a recording of a suspicious call. WEWAKE transcribes it and
-          runs the same coercion analysis. (Analyses uploaded recordings — not
-          live calls.)
-        </p>
-      </div>
-
-      <form onSubmit={onSubmit} className="space-y-2">
-        <label
-          htmlFor="audio-file"
-          className="block text-sm font-medium text-slate-900"
-        >
-          Choose a recording
-        </label>
-        <input
-          id="audio-file"
-          type="file"
-          accept="audio/*"
-          onChange={(e) => setFile(e.target.files[0] || null)}
-          className="w-full rounded border border-slate-400 p-2 text-sm text-slate-900"
-        />
-        <button
-          type="submit"
-          disabled={loading || !file}
-          className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white disabled:opacity-60"
-        >
+    <Panel
+      index="10"
+      eyebrow="Audio call"
+      title="🎙 Audio Scam-Call Analyzer"
+      description="Upload a recording of a suspicious call. WEWAKE transcribes it and runs the same coercion analysis. (Analyses uploaded recordings — not live calls.)"
+    >
+      <form onSubmit={onSubmit} className="space-y-3">
+        <div>
+          <label htmlFor="audio-file" className="wk-label">
+            Choose a recording
+          </label>
+          <input
+            id="audio-file"
+            type="file"
+            accept="audio/*"
+            onChange={(e) => setFile(e.target.files[0] || null)}
+            className="wk-input file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-ink file:px-3 file:py-2 file:text-sm file:text-white"
+            style={{ fontSize: '14px' }}
+          />
+        </div>
+        <button type="submit" disabled={loading || !file} className="wk-btn">
           {loading ? 'Transcribing… this can take a moment' : 'Analyse Recording'}
         </button>
-        {failed && (
-          <p className="text-sm text-red-600">Could not reach the server.</p>
-        )}
+        {failed && <p className="wk-err">Could not reach the server.</p>}
       </form>
 
-      {response && !response.ok && (
-        <p className="text-sm text-red-600">{response.error}</p>
-      )}
+      {response && !response.ok && <p className="wk-err">{response.error}</p>}
 
       {response && response.ok && (
         <div className="space-y-4">
-          <div className="rounded border border-slate-300 p-3">
-            <h3 className="text-sm font-bold text-slate-900">Transcript</h3>
-            <p className="mt-1 text-sm text-slate-800">
+          <div className="wk-inner wk-rise">
+            <p className="wk-eyebrow">Transcript</p>
+            <p style={{ fontSize: '14px', color: 'var(--ink)', marginTop: '8px' }}>
               {response.transcript || '(nothing was said in this recording)'}
             </p>
-            <p className="mt-2 text-xs text-slate-500">
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '12px',
+                color: 'var(--slate)',
+                marginTop: '10px',
+              }}
+            >
               Audio language: {response.audio_language || 'unknown'}
               {response.duration != null && ` · ${response.duration}s`}
             </p>
@@ -95,16 +90,28 @@ export default function AudioAnalyzer() {
 
           {analysis && (
             <>
-              <SecrecyAlarm triggered={analysis.secrecy_triggered} />
-              <ScoreBanner score={analysis.score} level={analysis.level} />
-              <DetectionBreakdown result={analysis} />
-              <MatchedScript script={analysis.matched_script} />
-              <TruthCard truth={analysis.truth_card} />
-              <ReasonsList reasons={analysis.reasons} />
+              <div className="wk-rise" style={step(1)}>
+                <SecrecyAlarm triggered={analysis.secrecy_triggered} />
+              </div>
+              <div className="wk-rise" style={step(2)}>
+                <ScoreBanner score={analysis.score} level={analysis.level} />
+              </div>
+              <div className="wk-rise" style={step(3)}>
+                <MatchedScript script={analysis.matched_script} />
+              </div>
+              <div className="wk-rise" style={step(4)}>
+                <TruthCard truth={analysis.truth_card} />
+              </div>
+              <div className="wk-rise" style={step(5)}>
+                <ReasonsList reasons={analysis.reasons} />
+              </div>
+              <div className="wk-rise" style={step(6)}>
+                <DetectionBreakdown result={analysis} />
+              </div>
             </>
           )}
         </div>
       )}
-    </section>
+    </Panel>
   )
 }

@@ -5,42 +5,57 @@
 export default function DetectionBreakdown({ result }) {
   const ml = result.ml
 
-  return (
-    <div className="rounded border border-slate-300 p-3">
-      <h3 className="text-sm font-bold text-slate-900">Detection breakdown</h3>
+  const Row = ({ label, value }) => (
+    <div
+      className="wk-mono-row"
+      style={{ borderTop: '1px solid var(--line)' }}
+    >
+      <span style={{ color: 'var(--slate)' }}>{label}</span>
+      <span className="pl-2 text-right" style={{ color: 'var(--ink)' }}>
+        {value}
+      </span>
+    </div>
+  )
 
-      <dl className="mt-2 space-y-1 text-sm text-slate-800">
-        <div>Rule engine: {result.rules_score}/100</div>
+  return (
+    <div className="wk-inner">
+      <p className="wk-eyebrow">Detection breakdown</p>
+
+      <div className="mt-2">
+        <Row label="RULE ENGINE" value={`${result.rules_score}/100`} />
 
         {!ml || !ml.available ? (
-          <div>ML model unavailable (not trained)</div>
+          <Row label="ML MODEL" value="unavailable (not trained)" />
         ) : (
-          <div>
-            ML model: {ml.percent}% likelihood
-            {!ml.counted && (
-              <span className="text-slate-600">
-                {' '}
-                (below threshold — not counted)
-              </span>
-            )}
-          </div>
+          <Row
+            label="ML MODEL"
+            value={
+              <>
+                {ml.percent}% likelihood
+                {!ml.counted && (
+                  <span style={{ color: 'var(--slate)' }}>
+                    {' '}
+                    (below threshold — not counted)
+                  </span>
+                )}
+              </>
+            }
+          />
         )}
-
-        {result.language && <div>Language detected: {result.language}</div>}
 
         {ml && ml.available && (
-          <div>
-            ML threshold for this language: {ml.threshold_percent}%
-          </div>
+          <Row label="ML THRESHOLD" value={`${ml.threshold_percent}%`} />
         )}
 
-        <div className="font-semibold">
-          Final: {result.score}/100 — {result.level}
-        </div>
-      </dl>
+        {result.language && <Row label="LANGUAGE" value={result.language} />}
+
+        <Row label="FINAL" value={`${result.score}/100 — ${result.level}`} />
+      </div>
 
       {result.detection_note && (
-        <p className="mt-2 text-sm text-slate-600">{result.detection_note}</p>
+        <p style={{ fontSize: '14px', color: 'var(--slate)', marginTop: '10px' }}>
+          {result.detection_note}
+        </p>
       )}
     </div>
   )

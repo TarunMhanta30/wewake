@@ -1,3 +1,5 @@
+import Panel from './Panel'
+
 /**
  * Reverse Verification.
  *
@@ -65,45 +67,62 @@ const CONTACTS = [
 
 export default function ReverseVerification() {
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <div>
-        <h2 className="text-lg font-bold text-slate-900">
-          📞 Reverse Verification — call the REAL number, not theirs
-        </h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Scammers tell you to call the number THEY gave you. Always verify
-          through an official number below instead.
-        </p>
-      </div>
-
-      <ul className="space-y-2">
+    <Panel
+      index="06"
+      eyebrow="Verify numbers"
+      title="📞 Reverse Verification — call the REAL number, not theirs"
+      description="Scammers tell you to call the number THEY gave you. Always verify through an official number below instead."
+    >
+      <ul className="grid gap-3 sm:grid-cols-2">
         {CONTACTS.map((contact) => (
           <li
             key={contact.name}
-            className="rounded border border-slate-300 p-3"
+            style={{
+              border: '1px solid var(--line)',
+              borderRadius: '10px',
+              padding: '16px',
+            }}
           >
-            <div className="text-sm font-semibold text-slate-900">
-              {contact.name}
-            </div>
+            <div className="wk-eyebrow">{contact.name}</div>
             <a
               href={contact.href}
               {...(contact.external
                 ? { target: '_blank', rel: 'noopener noreferrer' }
                 : {})}
-              className="mt-1 block break-all text-base font-bold text-blue-700 underline"
+              className="mt-2 block break-all"
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontWeight: 700,
+                fontSize: '18px',
+                color: 'var(--ink)',
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
+              }}
             >
               {contact.value}
             </a>
-            <p className="mt-1 text-sm text-slate-700">{contact.description}</p>
+            <p style={{ fontSize: '14px', color: 'var(--slate)', marginTop: '8px' }}>
+              {contact.description}
+            </p>
           </li>
         ))}
       </ul>
 
-      <p className="rounded border-2 border-amber-500 bg-amber-50 p-3 text-sm font-semibold text-slate-900">
+      <p
+        style={{
+          border: '2px solid var(--amber-dk)',
+          background: 'rgb(244 163 64 / 0.12)',
+          borderRadius: '10px',
+          padding: '16px',
+          fontSize: '14px',
+          fontWeight: 600,
+          color: 'var(--ink)',
+        }}
+      >
         ⚠ No real agency — CBI, ED, Police, RBI, TRAI — will ever ask you to
         pay money to a 'verification' or 'safe' account. If they do, it is a
         scam.
       </p>
-    </section>
+    </Panel>
   )
 }

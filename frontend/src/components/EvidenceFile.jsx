@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Panel from './Panel'
 
 const BLANK = '[TO BE FILLED]'
 const DIVIDER = '----------------------------------------'
@@ -112,89 +113,88 @@ export default function EvidenceFile() {
   }
 
   return (
-    <section className="space-y-4 border-t border-slate-300 pt-6">
-      <div>
-        <h2 className="text-lg font-bold text-slate-900">
-          📄 Evidence File — build your complaint
-        </h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Fill what you know. We format a ready-to-file complaint for 1930 and
-          cybercrime.gov.in. Blank fields are marked so you can complete them.
-        </p>
-      </div>
+    <Panel
+      index="08"
+      eyebrow="Evidence file"
+      title="📄 Evidence File — build your complaint"
+      description="Fill what you know. We format a ready-to-file complaint for 1930 and cybercrime.gov.in. Blank fields are marked so you can complete them."
+    >
+      <form onSubmit={generate} className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-2">
+          {FIELDS.map((field) => (
+            <div key={field.key}>
+              <label htmlFor={`evidence-${field.key}`} className="wk-label">
+                {field.label}
+              </label>
+              <input
+                id={`evidence-${field.key}`}
+                type="text"
+                value={form[field.key]}
+                onChange={(e) => update(field.key, e.target.value)}
+                className="wk-input"
+              />
+            </div>
+          ))}
+        </div>
 
-      <form onSubmit={generate} className="space-y-3">
-        {FIELDS.map((field) => (
-          <div key={field.key}>
-            <label
-              htmlFor={`evidence-${field.key}`}
-              className="block text-sm font-medium text-slate-900"
-            >
-              {field.label}
-            </label>
-            <input
-              id={`evidence-${field.key}`}
-              type="text"
-              value={form[field.key]}
-              onChange={(e) => update(field.key, e.target.value)}
-              className="mt-1 w-full rounded border border-slate-400 p-2 text-base text-slate-900"
-            />
-          </div>
-        ))}
-
-        <button
-          type="submit"
-          className="w-full rounded bg-slate-900 py-3 text-base font-medium text-white"
-        >
+        <button type="submit" className="wk-btn">
           Generate Complaint
         </button>
       </form>
 
       {complaint && (
-        <div className="space-y-3">
+        <div className="wk-rise space-y-3">
           <textarea
             readOnly
             value={complaint}
             rows={26}
-            className="w-full rounded border border-slate-400 p-2 font-mono text-xs text-slate-900"
+            className="wk-textarea"
+            style={{
+              fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+              fontSize: '12px',
+              lineHeight: 1.6,
+              background: 'var(--mist)',
+            }}
           />
 
-          <div className="space-y-2">
-            <button
-              type="button"
-              onClick={copy}
-              className="w-full rounded border border-slate-400 py-3 text-base font-medium text-slate-900"
-            >
+          <div className="grid gap-2 sm:grid-cols-2">
+            <button type="button" onClick={copy} className="wk-btn-2">
               Copy to clipboard
             </button>
-            <button
-              type="button"
-              onClick={download}
-              className="w-full rounded border border-slate-400 py-3 text-base font-medium text-slate-900"
-            >
+            <button type="button" onClick={download} className="wk-btn-2">
               Download as .txt
             </button>
           </div>
 
-          {status && <p className="text-sm text-slate-700">{status}</p>}
+          {status && (
+            <p
+              style={{
+                fontFamily: "'JetBrains Mono', ui-monospace, monospace",
+                fontSize: '12px',
+                color: 'var(--slate)',
+              }}
+            >
+              {status}
+            </p>
+          )}
 
-          <p className="text-sm text-slate-800">
+          <p style={{ fontSize: '14px', color: 'var(--ink)' }}>
             When ready, file it here:{' '}
             <a
               href="https://cybercrime.gov.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-blue-700 underline"
+              className="wk-link"
             >
               cybercrime.gov.in
             </a>{' '}
             or call{' '}
-            <a href="tel:1930" className="font-bold text-blue-700 underline">
+            <a href="tel:1930" className="wk-link">
               1930
             </a>
           </p>
         </div>
       )}
-    </section>
+    </Panel>
   )
 }
