@@ -113,10 +113,13 @@ Set `VITE_API_URL` in `frontend/.env` to point at the backend if not running loc
 
 ---
 
-## Live Deployment
+## Demo Video
 
-> _Backend: [add Railway URL after deploying]_
-> _Frontend: [add Vercel URL after deploying]_
+**Full walkthrough (YouTube):** https://youtu.be/nyLTsfgMTlI
+
+## Running the Project
+
+WEWAKE runs locally with the setup steps above (backend on `localhost:8000`, frontend on `localhost:5173`). The full demo — all 15 features including the audio scam-call analyzer — is shown in the demo video linked above.
 
 ---
 
