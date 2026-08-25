@@ -1,0 +1,48 @@
+WEWAKE — Prasunethon 2.0 Round 2 Submission
+Team: Solora (Solo Participant) — Tarun Mhanta
+===========================================================
+
+PROJECT:  WEWAKE — India's first coercion-aware financial firewall
+TAGLINE:  Wake up before you pay.
+
+-----------------------------------------------------------
+SUBMISSION LINKS
+-----------------------------------------------------------
+
+GitHub Repository (full source + documentation):
+https://github.com/TarunMhanta30/wewake
+
+Demo Video (full walkthrough, YouTube):
+https://youtu.be/nyLTsfgMTlI
+
+-----------------------------------------------------------
+WHAT'S IN THIS SUBMISSION
+-----------------------------------------------------------
+
+1. Complete source code — frontend (React + Vite) and backend
+   (Python + FastAPI), 15 working features.
+2. README.md — full project documentation.
+3. Round 2 presentation (PPTX).
+4. This links file.
+
+-----------------------------------------------------------
+HOW TO RUN LOCALLY
+-----------------------------------------------------------
+
+Backend:
+  cd backend
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  python train_model.py
+  uvicorn app.main:app --reload
+
+Frontend:
+  cd frontend
+  npm install
+  npm run dev
+
+Full setup details are in README.md.
+
+-----------------------------------------------------------
+Contact: tarunmhanta30@gmail.com

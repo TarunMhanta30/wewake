@@ -90,33 +90,42 @@ No live call interception (Android restricts this — audio analysis works on up
 
 ## Local Setup
 
-### Backend
+**Important:** run all commands from inside the project folder (the folder
+containing `backend/` and `frontend/`). After unzipping, `cd` into it first.
+
+### Backend  (terminal 1)
 ```bash
 cd backend
 python3 -m venv venv
-source venv/bin/activate
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-python train_model.py          # trains the ML classifier (first time only)
+python train_model.py             # trains the ML classifier — first time only
 uvicorn app.main:app --reload
 ```
-Runs at `http://localhost:8000`
+Backend runs at `http://localhost:8000` — check `http://localhost:8000/api/health`.
 
-### Frontend
+### Frontend  (terminal 2, keep terminal 1 running)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Runs at `http://localhost:5173` (or next available port)
+Open the URL it prints (usually `http://localhost:5173`).
 
-Set `VITE_API_URL` in `frontend/.env` to point at the backend if not running locally.
+Both terminals must stay running at the same time. On later runs you can skip
+`pip install`, `train_model.py` and `npm install` — just activate the venv and
+start the two servers.
 
----
+Set `VITE_API_URL` in `frontend/.env` only if the backend is not on
+`localhost:8000`.
 
-## Live Deployment
+## Demo Video
 
-> _Backend: [add Railway URL after deploying]_
-> _Frontend: [add Vercel URL after deploying]_
+**Full walkthrough (YouTube):** https://youtu.be/nyLTsfgMTlI
+
+## Running the Project
+
+WEWAKE runs locally with the setup steps above (backend on `localhost:8000`, frontend on `localhost:5173`). The full demo — all 15 features including the audio scam-call analyzer — is shown in the demo video linked above.
 
 ---
 
